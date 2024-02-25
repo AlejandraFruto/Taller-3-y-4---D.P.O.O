@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="nTaller3y4AerolineaEsqueleto/src"/>
+	<classpathentry kind="lib" path="nTaller3y4AerolineaEsqueleto/lib/org.json-1.6-20240205.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
