@@ -14,7 +14,7 @@ public class Vuelo {
 	public Map<String, Tiquete> tiquete;
 	
 
-	public Vuelo(Ruta ruta, String fecha,Avion avion) {
+	public Vuelo(Ruta ruta, String fecha, Avion avion) {
 			this.ruta = ruta;
 			this.avion = avion;
 			this.fecha = fecha;
@@ -36,8 +36,8 @@ public class Vuelo {
 	}
 
 
-	public Map<String, Tiquete> getTiquete() {
-		return this.tiquete;
+	public Map<String, Tiquete> getTiquetes() {
+		return null;
 	}
 	
 	public int venderTiquetes(Cliente cliente, CalculadoraTarifas calculadora, int cantidad) {
@@ -45,6 +45,9 @@ public class Vuelo {
 		return 0;
 	}
 	
+	public boolean equals(Object obj) {
+		return true;
+	}
 	
 	
 	

@@ -7,7 +7,7 @@ import uniandes.dpoo.aerolinea.modelo.*;
 
 public abstract class CalculadoraTarifas {
 	
-	double IMPUESTO = 0.28;
+	public double IMPUESTO = 0.28;
 	
 	
 	
