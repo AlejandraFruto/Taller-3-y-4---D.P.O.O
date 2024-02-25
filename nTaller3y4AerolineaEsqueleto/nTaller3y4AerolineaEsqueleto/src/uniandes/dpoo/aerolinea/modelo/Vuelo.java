@@ -37,7 +37,7 @@ public class Vuelo {
 
 
 	public Map<String, Tiquete> getTiquetes() {
-		return null;
+		return this.tiquete;
 	}
 	
 	public int venderTiquetes(Cliente cliente, CalculadoraTarifas calculadora, int cantidad) {
@@ -45,8 +45,9 @@ public class Vuelo {
 		return 0;
 	}
 	
+	@Override
 	public boolean equals(Object obj) {
-		return true;
+		return (this == obj);
 	}
 	
 	

@@ -163,8 +163,15 @@ public class Aerolinea
      */
     public Vuelo getVuelo( String codigoRuta, String fechaVuelo )
     {
-        // TODO implementar
-        return null;
+   
+        Vuelo vueloObtenido = null;
+        for(Vuelo vuelo: vuelos ) {
+        	if ((vuelo.getFecha() == fechaVuelo) && (vuelo.getRuta().getCodigoRuta() == codigoRuta) ){
+        		vueloObtenido = vuelo;
+        	}
+        }
+        
+        return vueloObtenido;
     }
 
     /**
@@ -182,9 +189,18 @@ public class Aerolinea
      */
     public Collection<Tiquete> getTiquetes( )
     {
-        // TODO implementar
-        return null;
+        List<Tiquete> tiquetes = new ArrayList<Tiquete>( );
+        
+        for (Vuelo vuelo: vuelos) {
+        	Collection <Tiquete> tiquetesVuelo = vuelo.getTiquetes().values();
+        	for (Tiquete tiquete: tiquetesVuelo) {
+        		tiquetes.add(tiquete);
+        	}
+        }
+        
+        return tiquetes;
 
+        
     }
 
     // ************************************************************************************
@@ -203,7 +219,8 @@ public class Aerolinea
      */
     public void cargarAerolinea( String archivo, String tipoArchivo ) throws TipoInvalidoException, IOException, InformacionInconsistenteException
     {
-        // TODO implementar
+        IPersistenciaAerolinea cargador = CentralPersistencia.getPersistenciaAerolinea(tipoArchivo);
+        cargador.cargarAerolinea(archivo, this);
     }
 
     /**
@@ -215,7 +232,8 @@ public class Aerolinea
      */
     public void salvarAerolinea( String archivo, String tipoArchivo ) throws TipoInvalidoException, IOException
     {
-        // TODO implementar
+        IPersistenciaAerolinea cargador = CentralPersistencia.getPersistenciaAerolinea(tipoArchivo);
+        cargador.salvarAerolinea(archivo, this);
     }
 
     /**
@@ -264,8 +282,26 @@ public class Aerolinea
      * @throws Exception Lanza esta excepción si hay algún problema con los datos suministrados
      */
     public void programarVuelo( String fecha, String codigoRuta, String nombreAvion ) throws Exception
-    {
-        // TODO Implementar el método
+    {	
+    	Avion avionNecesitado = null;
+    	for (Avion avion: getAviones()) {
+    		if (avion.getNombre() == nombreAvion) {
+    			avionNecesitado = avion;
+    			}
+    	}
+    	
+    	boolean enUso = false;
+    	for (Vuelo vuelo: vuelos) {
+    		if ((vuelo.getAvion() == avionNecesitado) && (vuelo.getFecha() == fecha)) {
+    			enUso = true;
+    		}
+    	}
+    	
+    	if (enUso == false) {
+    		Vuelo vueloNuevo = new Vuelo( getRuta(codigoRuta),fecha, avionNecesitado);
+    		vuelos.add(vueloNuevo);
+    	}
+    		
     }
 
     /**
@@ -296,7 +332,13 @@ public class Aerolinea
      */
     public void registrarVueloRealizado( String fecha, String codigoRuta )
     {
-        // TODO Implementar el método
+    	Vuelo vueloRealizado = getVuelo(fecha, codigoRuta);
+    	Collection<Tiquete> tiquetes = vueloRealizado.getTiquetes().values();
+    	
+    	for (Tiquete tiquete: tiquetes) {
+    		tiquete.marcarComoUsado();
+    		tiquete.getCliente().agregarTiquete(tiquete);
+    	}   
     }
 
     /**

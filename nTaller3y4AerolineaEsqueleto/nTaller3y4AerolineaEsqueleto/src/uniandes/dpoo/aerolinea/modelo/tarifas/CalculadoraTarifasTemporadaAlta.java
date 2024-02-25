@@ -7,7 +7,7 @@ import uniandes.dpoo.aerolinea.modelo.*;
 
 public class CalculadoraTarifasTemporadaAlta extends CalculadoraTarifas {
 
-		protected int COSTO_POR_KM = 1000;
+		protected final int COSTO_POR_KM = 1000;
 		
 		public int calcularCostoBase(Vuelo vuelo, Cliente cliente) {
 			return 0;

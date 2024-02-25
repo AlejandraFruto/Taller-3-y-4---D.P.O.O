@@ -8,10 +8,10 @@ import org.json.JSONObject;
 public class ClienteCorporativo extends Cliente
 {
     // TODO completar
-    public String CORPORATIVO = "Corporativo";
-    public int GRANDE = 1;
-    public int MEDIANA = 2;
-    public int PEQUENA = 3;
+    public  final String CORPORATIVO = "Corporativo";
+    public  final int GRANDE = 1;
+    public  final int MEDIANA = 2;
+    public  final int PEQUENA = 3;
     private String nombreEmpresa;
     private int tamanoEmpresa;
 
@@ -36,7 +36,7 @@ public class ClienteCorporativo extends Cliente
 	
 	
 	public String getTipoCliente() {
-		return null;
+		return CORPORATIVO;
 	}
 	
 	

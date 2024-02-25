@@ -40,12 +40,13 @@ public class Tiquete {
 
 	
 	public void marcarComoUsado() {
+		usado = true;
 		
 	}
 	
 	public boolean esUsado() {
 		
-		return  true;
+		return  usado;
 	}
 
 	

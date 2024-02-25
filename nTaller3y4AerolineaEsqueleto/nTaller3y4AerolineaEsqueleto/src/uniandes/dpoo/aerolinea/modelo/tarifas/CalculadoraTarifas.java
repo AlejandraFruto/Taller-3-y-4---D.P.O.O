@@ -7,7 +7,7 @@ import uniandes.dpoo.aerolinea.modelo.*;
 
 public abstract class CalculadoraTarifas {
 	
-	public double IMPUESTO = 0.28;
+	public final double IMPUESTO = 0.28;
 	
 	
 	
@@ -25,11 +25,15 @@ public abstract class CalculadoraTarifas {
 	}
 	
 	protected int calcularDistanciaVuelo(Ruta ruta) {
-		return 0;
+		int distanciaVuelo = Aeropuerto.calcularDistancia(ruta.getOrigen(), ruta.getDestino());
+		return distanciaVuelo;
 	}
 	
 	protected int calcularValorImpuestos(int costoBase) {
-		return 0;
+		double valorImpuesto = costoBase * IMPUESTO;
+		int valorImpuestos = (int) (valorImpuesto);
+		
+		return valorImpuestos;
 	}
 	
 	

@@ -5,7 +5,7 @@ package uniandes.dpoo.aerolinea.modelo;
  */
 public class Ruta
 {
-    // TODO completar
+    
 		
 	
 		private Aeropuerto origen;
