@@ -1,6 +1,9 @@
 package uniandes.dpoo.aerolinea.modelo.tarifas;
 
 import uniandes.dpoo.aerolinea.modelo.cliente.*;
+
+import java.util.Collection;
+import uniandes.dpoo.aerolinea.tiquetes.*;
 import uniandes.dpoo.aerolinea.modelo.*;
 
 
@@ -12,16 +15,17 @@ public abstract class CalculadoraTarifas {
 	
 	
 	public int calcularTarifa(Vuelo vuelo, Cliente cliente) {
-		return 0;	
+		return 0;
 	}
 	
 	protected int calcularCostoBase(Vuelo vuelo, Cliente cliente) {
+		
 		return 0;
 	}
 	
 	protected double calcularPorcentajeDescuento(Cliente cliente) {
 		 
-		return 0.0;
+		return 0;
 	}
 	
 	protected int calcularDistanciaVuelo(Ruta ruta) {

@@ -15,12 +15,12 @@ public abstract class Cliente {
 	}
 	
 	public String getTipoCliente() {
-		return null;
-		
+		return null;	
 	}
 	
 	public String getIdentificador() {
 		return null;
+		
 		
 	}
 	
@@ -30,14 +30,26 @@ public abstract class Cliente {
 	}
 	
 	public int calcularValorTotalTiquetes( ) {
-		return 0;	
+		int valorTotal = 0;
+		for (Tiquete tiquete: tiquetesSinUsar) {
+			valorTotal += tiquete.getTarifa();
+		}
+		
+		for (Tiquete tiquete: tiquetesUsados) {
+			valorTotal += tiquete.getTarifa();
+		}
+		
+		return valorTotal;	
 		
 	}
 	
 	public void usarTiquetes(Vuelo vuelo){
 		Collection<Tiquete> tiquetesVuelo = vuelo.getTiquetes().values();
 		for (Tiquete tiquete: tiquetesVuelo) {
-			
+			if(tiquetesSinUsar.contains(tiquete)){
+				tiquetesSinUsar.remove(tiquete);
+				tiquetesUsados.add(tiquete);
+			}
 		}
 		
 		

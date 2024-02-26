@@ -41,7 +41,7 @@ public class ClienteCorporativo extends Cliente
 	
 	
 	public String getIdentificador() {
-		return null;
+		return "ID"+nombreEmpresa+CORPORATIVO+tamanoEmpresa;
 	}
 
 
