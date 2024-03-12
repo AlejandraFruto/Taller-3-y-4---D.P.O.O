@@ -56,7 +56,22 @@ public class Ruta
 	}
 
 
-
+	public int getDuracion() {
+		int salidaMinutos = getMinutos(getHoraSalida());
+		int salidaHorasMin = getHoras(getHoraSalida()) * 60;
+		
+		int minutosSalida = salidaMinutos + salidaHorasMin;
+		
+		int llegadaMinutos = getMinutos(getHoraSalida());
+		int llegadaHorasMin = getHoras(getHoraSalida()) * 60;
+		
+		int minutosLlegada = llegadaMinutos + llegadaHorasMin;
+	
+		return minutosLlegada - minutosSalida;
+			
+		}
+		
+	
 
 	/**
      * Dada una cadena con una hora y minutos, retorna los minutos.

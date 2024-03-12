@@ -2,6 +2,8 @@ package uniandes.dpoo.aerolinea.modelo.tarifas;
 
 import uniandes.dpoo.aerolinea.modelo.*;
 import uniandes.dpoo.aerolinea.modelo.cliente.*;
+import uniandes.dpoo.aerolinea.modelo.cliente.ClienteCorporativo;
+import uniandes.dpoo.aerolinea.modelo.cliente.ClienteNatural;
 
 
 public class CalculadoraTarifasTemporadaBaja extends CalculadoraTarifas  {
@@ -35,8 +37,20 @@ public class CalculadoraTarifasTemporadaBaja extends CalculadoraTarifas  {
 			descuento = 0;
 		}
 		
+
 		else if(cliente.getTipoCliente() == "Corporativo") {
-			if ()) {
+			{
+				
+				if (((ClienteCorporativo) cliente).getTamanoEmpresa() == 1) {
+					descuento = DESCUENTO_GRANDES;
+				}
+				else if( ((ClienteCorporativo) cliente).getTamanoEmpresa() == 2){
+					descuento = DESCUENTO_MEDIANAS;
+				}
+				
+				else if (((ClienteCorporativo) cliente).getTamanoEmpresa() == 3) {
+					descuento = DESCUENTO_PEQ;
+				}
 				
 			}
 		}

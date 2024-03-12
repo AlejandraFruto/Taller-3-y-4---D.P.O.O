@@ -3,6 +3,7 @@ package uniandes.dpoo.aerolinea.modelo.tarifas;
 
 import uniandes.dpoo.aerolinea.modelo.cliente.*;
 import uniandes.dpoo.aerolinea.modelo.*;
+import java.util.Random;
 
 
 public class CalculadoraTarifasTemporadaAlta extends CalculadoraTarifas {
@@ -15,7 +16,9 @@ public class CalculadoraTarifasTemporadaAlta extends CalculadoraTarifas {
 		}
 		
 		public double calcularPorcentajeDescuento(Cliente cliente) {
-			return 0;
+			
+	        return 0;
+			
 		}
 		
 }

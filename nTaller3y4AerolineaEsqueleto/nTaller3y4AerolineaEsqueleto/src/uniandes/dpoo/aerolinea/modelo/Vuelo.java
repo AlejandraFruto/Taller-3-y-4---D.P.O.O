@@ -11,7 +11,7 @@ public class Vuelo {
 	private String fecha;
 	private Ruta ruta;
 	private Avion avion;
-	public Map<String, Tiquete> tiquete;
+	public Map<String, Tiquete> tiquetes;
 	
 
 	public Vuelo(Ruta ruta, String fecha, Avion avion) {
@@ -37,12 +37,21 @@ public class Vuelo {
 
 
 	public Map<String, Tiquete> getTiquetes() {
-		return this.tiquete;
+		return this.tiquetes;
 	}
 	
 	public int venderTiquetes(Cliente cliente, CalculadoraTarifas calculadora, int cantidad) {
 		
-		return 0;
+		int precioTiquete = calculadora.calcularTarifa(this, cliente);
+		int valorTotal = precioTiquete * cantidad;
+		
+		int cantidad2;
+		for ( cantidad2 = 0; cantidad2 < cantidad; cantidad2++ ) {
+			Tiquete nuevoTiquete = GeneradorTiquetes.generarTiquete( this, cliente, precioTiquete);
+			tiquetes.put(nuevoTiquete.getCodigo(), nuevoTiquete);
+		}
+		
+		return valorTotal;
 	}
 	
 	@Override

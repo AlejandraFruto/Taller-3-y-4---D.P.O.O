@@ -1,7 +1,10 @@
 package uniandes.dpoo.aerolinea.modelo;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +19,11 @@ import uniandes.dpoo.aerolinea.persistencia.CentralPersistencia;
 import uniandes.dpoo.aerolinea.persistencia.IPersistenciaAerolinea;
 import uniandes.dpoo.aerolinea.persistencia.IPersistenciaTiquetes;
 import uniandes.dpoo.aerolinea.persistencia.TipoInvalidoException;
+import uniandes.dpoo.aerolinea.modelo.tarifas.*;
+import uniandes.dpoo.aerolinea.modelo.tarifas.CalculadoraTarifas;
+import uniandes.dpoo.aerolinea.modelo.tarifas.CalculadoraTarifasTemporadaBaja;
+import uniandes.dpoo.aerolinea.modelo.tarifas.CalculadoraTarifasTemporadaAlta;
+import uniandes.dpoo.aerolinea.tiquetes.GeneradorTiquetes;
 import uniandes.dpoo.aerolinea.tiquetes.Tiquete;
 
 /**
@@ -115,7 +123,12 @@ public class Aerolinea
      */
     public Cliente getCliente( String identificadorCliente )
     {
-        return this.clientes.get( identificadorCliente );
+    	if (this.existeCliente(identificadorCliente)){
+    		return this.clientes.get( identificadorCliente );
+    					}
+    	else {
+    		return null; }
+        
     }
 
     /**
@@ -124,7 +137,7 @@ public class Aerolinea
      */
     public Collection<Avion> getAviones( )
     {
-        return aviones;
+        return this.aviones;
     }
 
     /**
@@ -133,7 +146,7 @@ public class Aerolinea
      */
     public Collection<Ruta> getRutas( )
     {
-        return rutas.values( );
+        return this.rutas.values( );
     }
 
     /**
@@ -152,7 +165,7 @@ public class Aerolinea
      */
     public Collection<Vuelo> getVuelos( )
     {
-        return vuelos;
+        return this.vuelos;
     }
 
     /**
@@ -180,7 +193,7 @@ public class Aerolinea
      */
     public Collection<Cliente> getClientes( )
     {
-        return clientes.values( );
+        return this.clientes.values( );
     }
 
     /**
@@ -321,8 +334,47 @@ public class Aerolinea
      */
     public int venderTiquetes( String identificadorCliente, String fecha, String codigoRuta, int cantidad ) throws VueloSobrevendidoException, Exception
     {
-        // TODO Implementar el método
-        return -1;
+    	Vuelo vuelo = this.getVuelo(codigoRuta, fecha);
+    	CalculadoraTarifas calculadoraAlta = new CalculadoraTarifasTemporadaAlta();
+    	CalculadoraTarifas calculadoraBaja = new CalculadoraTarifasTemporadaBaja();
+    	
+    	Cliente cliente = getCliente(identificadorCliente);
+    	
+    	String mes = "";
+        String[] partesFecha = fecha.split("-");
+        mes = partesFecha[1];
+        
+        
+        String [] mesesTemporadaBaja = {"01", "02", "03", "04", "05", "09", "10", "11"};
+        boolean estaEnTemporadaBaja = Arrays.asList(mesesTemporadaBaja).contains(mes);
+        
+        
+        
+        int tarifa = 0;
+    	if(clientes.containsKey(identificadorCliente)) {
+    		if ( estaEnTemporadaBaja == true ) {
+    			tarifa = calculadoraBaja.calcularTarifa(vuelo, cliente);
+    			vuelo.venderTiquetes(cliente, calculadoraBaja, cantidad);
+
+    		}
+    		else if (estaEnTemporadaBaja == false) {
+    			tarifa = calculadoraAlta.calcularTarifa(vuelo, cliente);
+    			vuelo.venderTiquetes(cliente, calculadoraAlta, cantidad);
+    		}
+    		
+    	}
+    	
+    	
+    	
+    	for (int cantidad2 = 0; cantidad2 < cantidad ; cantidad2++) {
+    		Tiquete nuevoTiquete = GeneradorTiquetes.generarTiquete( vuelo, cliente, tarifa);
+    		cliente.agregarTiquete(nuevoTiquete);
+    	}
+    	
+    	int valorTotalVendidos = tarifa*cantidad;
+    	
+   
+        return valorTotalVendidos;
     }
 
     /**
@@ -337,7 +389,7 @@ public class Aerolinea
     	
     	for (Tiquete tiquete: tiquetes) {
     		tiquete.marcarComoUsado();
-    		tiquete.getCliente().agregarTiquete(tiquete);
+    		tiquete.getCliente().usarTiquetes(vueloRealizado);;
     	}   
     }
 
@@ -348,8 +400,26 @@ public class Aerolinea
      */
     public String consultarSaldoPendienteCliente( String identificadorCliente )
     {
-        // TODO Implementar el método
-        return "";
+    	
+    	Cliente clienteConsulta = clientes.get(identificadorCliente);
+    	ArrayList<Tiquete> listaTiquetes = new ArrayList<>();
+    	
+    	Collection<Tiquete> tiquetesVuelo = this.getTiquetes();
+    	
+    	for ( Tiquete tiquete : tiquetesVuelo) {
+    		if ((tiquete.getCliente() == clienteConsulta) && (tiquete.esUsado() == false )) {
+    			listaTiquetes.add(tiquete);
+    		}
+    	}
+    	
+    	int valorTotal = 0;
+		for (Tiquete tiquete : listaTiquetes ) {
+			valorTotal += tiquete.getTarifa();
+		}
+		
+		String valorTotalString = Integer.toString(valorTotal);
+		
+        return valorTotalString;
     }
 
 }
